@@ -2,11 +2,16 @@ import os, csv
 import talib
 import yfinance as yf
 import pandas
-from flask import Flask, escape, request, render_template
+from flask import Flask, request, render_template
 from patterns import candlestick_patterns
+from datetime import datetime
 
 app = Flask(__name__)
 
+current_datetime = datetime.now()
+current_date = current_datetime.date()
+current_time = current_datetime.time()
+formatted_date = datetime.now().strftime('%Y-%m-%d')
 @app.route('/snapshot')
 def snapshot():
     with open('datasets/symbols.csv') as f:
@@ -14,7 +19,7 @@ def snapshot():
             if "," not in line:
                 continue
             symbol = line.split(",")[0]
-            data = yf.download(symbol, start="2020-01-01", end="2020-08-01")
+            data = yf.download(symbol, start="2023-01-01", end=formatted_date)
             data.to_csv('datasets/daily/{}.csv'.format(symbol))
 
     return {
