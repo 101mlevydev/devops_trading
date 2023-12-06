@@ -1,4 +1,4 @@
 flask
-TA-Lib
+TA_Lib
 pandas
 yfinance
